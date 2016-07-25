@@ -1,10 +1,13 @@
 BITS 16
 
+;%define _BREAK
+
 %ifdef _BREAK
 %define BREAK xchg bx, bx
 %else
 %define BREAK
 %endif
+
 %define KERNEL_RMODE_LOC 0x820
 %define KERNEL_PMODE_LOC 0x100000
 
@@ -246,8 +249,23 @@ Relocation:
 	BREAK
 	push ebx
 
+	;Find the first relocation table
+
+	mov eax, ebx
+
+	.relocLoop:
+
+	inc eax
+	mov esi, eax
+	mov edi, KernelCodeSig+0x7E00
+	mov ecx, 0x05
+
+	rep cmpsb
+	jne .relocLoop 
+
+	BREAK
 	;code section
-	mov ebx, KERNEL_PMODE_LOC+0x1B8
+	mov ebx, eax
 	mov esi, ebx
 	mov edi, KernelCodeSig+0x7E00
 	mov ecx, 0x05
