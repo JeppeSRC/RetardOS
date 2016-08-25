@@ -33,6 +33,12 @@
     <ClInclude Include="include\keyboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\cmos.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stddef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\memory.cpp">
@@ -48,6 +54,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\keyboard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cmos.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cmos_rtc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
