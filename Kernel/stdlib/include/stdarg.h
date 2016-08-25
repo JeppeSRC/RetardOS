@@ -1,13 +1,14 @@
 #pragma once
 
+#include "stddef.h"
 
 #if defined(__cplusplus) 
 extern "C" {
 #endif
-typedef unsigned char* va_list;
+typedef byte* va_list;
 
 
-#define va_size(s) ((sizeof(s) + sizeof(int) - 1) & ~(sizeof(int) -1))
+#define va_size(s) ((sizeof(s) + sizeof(int32) - 1) & ~(sizeof(int32) -1))
 
 #define va_start(list, arg) ((void)(list = (va_list)(&(arg)) + va_size(arg)))
 #define va_arg(list, type) (*(type*)((list += va_size(type)) - va_size(type)))

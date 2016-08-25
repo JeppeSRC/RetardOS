@@ -7,17 +7,17 @@
 
 static unsigned char textColor = _TEXT_ATTRIB_COLOR_FWHITE;
 
-static unsigned int xCursor = 0;
-static unsigned int yCursor = 0;
+static uint32 xCursor = 0;
+static uint32 yCursor = 0;
 
-void _setTextColor(unsigned char color) {
+void _setTextColor(uint8 color) {
 	textColor = color;
 }
 
-void _fillBackGround(unsigned char col) {
-	volatile char* video = (char*)0xB8000;
+void _fillBackGround(uint8 col) {
+	volatile byte* video = (byte*)0xB8000;
 
-	for (unsigned int i = 0; i < (80 * 25) * 2; i+=2) {
+	for (uint32 i = 0; i < (80 * 25) * 2; i+=2) {
 		video[i + 1] = (col & 0b11110000) | (textColor & 0b00001111);
 	}
 }
@@ -25,10 +25,10 @@ void _fillBackGround(unsigned char col) {
 void _print(const char* _string) {
 	_print(_string, _strlen(_string));
 }
-// "ABC"
-void _print(const char* _string, unsigned int _len) {
-	volatile char* video = (char*)0xB8000;
-	for (unsigned int i = 0; i < _len; i++) {
+
+void _print(const char* _string, uint32 _len) {
+	volatile byte* video = (byte*)0xB8000;
+	for (uint32 i = 0; i < _len; i++) {
 		if (xCursor >= 80) {
 			xCursor = 0;
 			yCursor++;
@@ -46,7 +46,7 @@ void _print(const char* _string, unsigned int _len) {
 			_clr();
 		}
 
-		unsigned int index = (xCursor + yCursor * 80) * 2;
+		uint32 index = (xCursor + yCursor * 80) * 2;
 		video[index + 0] = _string[i];
 		video[index + 1] = textColor;
 
@@ -71,11 +71,11 @@ void _printf(const char* _format...) {
 void _vprintf(const char* _format, va_list args) {
 	char tmp[MAX_FPRINT_SIZE];
 
-	unsigned int printed = _vsprintf(tmp, _format, args);
+	uint32 printed = _vsprintf(tmp, _format, args);
 	_print(tmp, printed);
 }
 
-void _setCursor(unsigned int x, unsigned int y) {
+void _setCursor(uint32 x, uint32 y) {
 	xCursor = x;
 	yCursor = y;
 }

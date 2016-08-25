@@ -1,5 +1,6 @@
 #pragma once
-#include <stdarg.h>
+#include "stdarg.h"
+#include "stddef.h"
 
 #define VMEMORY 0xB8000
 
@@ -13,13 +14,13 @@
 #define _TEXT_ATTRIB_COLOR_BGREEN 0b00100000
 #define _TEXT_ATTRIB_COLOR_BBLUE 0b00010000
 
-extern void _setTextColor(unsigned char color);
-extern void _fillBackGround(unsigned char color);
+extern void _setTextColor(uint8 color);
+extern void _fillBackGround(uint8 color);
 extern void _print(const char* _string);
-extern void _print(const char* _string, unsigned int _len);
+extern void _print(const char* _string, uint32 _len);
 extern void _clr();
 
 extern void _printf(const char* _format...);
 extern void _vprintf(const char* _format, va_list args);
 
-extern void _setCursor(unsigned int x, unsigned int y);
+extern void _setCursor(uint32 x, uint32 y);

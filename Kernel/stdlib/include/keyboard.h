@@ -25,11 +25,11 @@ enum KEYBOARD_ENC_CMD {
 	KEYBOARD_ENC_CMD_RST_AND_POST = 0xFF
 };
 
-extern unsigned char keyboard_ctrl_read_status();
-extern unsigned char keyboard_enc_read_buffer();
+extern uint8 keyboard_ctrl_read_status();
+extern uint8 keyboard_enc_read_buffer();
 
-extern void keyboard_ctrl_send_cmd(unsigned char cmd);
-extern void keyboard_enc_send_cmd(unsigned char cmd);
+extern void keyboard_ctrl_send_cmd(uint8 cmd);
+extern void keyboard_enc_send_cmd(uint8 cmd);
 
 
 extern void keyboard_set_leds(bool scroll_lock, bool num_lock, bool caps_lock);

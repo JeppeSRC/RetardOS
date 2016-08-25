@@ -1,7 +1,7 @@
 #include "memory.h"
 #include "stddef.h"
 
-void _memset(void* _dst, unsigned char _value, uint32 _size) {
+void _memset(void* _dst, uint8 _value, uint32 _size) {
 	__asm {
 		mov ecx, _size
 		mov al, _value
