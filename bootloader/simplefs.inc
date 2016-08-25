@@ -4,6 +4,8 @@ absolute_sector: db 0
 absolute_track: db 0
 absolute_head: db 0
 
+drive_number db 0
+
 msgReadError: db ' Failed to read sector(s)', 0
 msgFailedToFindFile: db ' Failed to find file! ', 0
 
@@ -12,7 +14,7 @@ readSectors:
 	xor bp, bp
 	.reset:
 		mov ah, 0x00
-		mov dl, 0x00
+		mov dl, [drive_number]
 		int 0x13
 		jc .reset
 
@@ -20,7 +22,7 @@ readSectors:
 	mov ch, [absolute_track]
 	mov cl, [absolute_sector]
 	mov dh, [absolute_head]
-	mov dl, 0x00
+	mov dl, [drive_number]
 	int 0x13
 	jnc .read_done
 	inc bp
@@ -57,3 +59,5 @@ LBACHS:
 	ret
 
 	%endif
+
+

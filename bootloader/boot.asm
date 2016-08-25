@@ -1,6 +1,6 @@
 BITS 16
 
-
+;%define _BREAK
 
 %ifdef _BREAK
 %define BREAK xchg bx, bx
@@ -11,13 +11,13 @@ jmp start
 
 VolumeLable: db 'TESTVOLUME        ' 	
 Version: dw 0x0101					
-Disktype: db 0x01					
-ReservedSectors: db 0x01			
-SectorsPerFAT: db 0x07				
-RootDirSectors: db 0x0F			
-RootEntries: dw 0xC0	
-BytesPerSector: dw 0x200			
-Tracks: db 0x50						
+Disktype: db 0x01 
+ReservedSectors: db 0x01	
+SectorsPerFAT: db 0x07		
+RootDirSectors: db 0x0F
+RootEntries: dw 0xC0
+BytesPerSector: dw 0x200
+Tracks: db 0x50					
 SectorsPerTrack: db 0x12			
 Heads: db 0x02			
 Formatted: db 0
@@ -25,6 +25,7 @@ Formatted: db 0
 msgText: db 'Starting', 0
 msgSwicth: db ' Loading ', 0
 msgReading: db ' Reading ', 0
+msgFileFound: db ' File Found ', 0
 
 Stage2FileName: db 'boot2.bin                       ', 0
 
@@ -59,13 +60,14 @@ start:
 	mov sp, 0xFFFF
 	BREAK
 
+	mov [drive_number], dl
+
 	mov si, msgText
 	call print
 	mov si, msgSwicth
 	call print
 
 	BREAK
-
 
 	xor ax, ax
 	mov al, byte [ReservedSectors]
@@ -104,6 +106,8 @@ start:
 		jmp Error
 
 	LoadFile:
+		mov si, msgFileFound
+		call print
 		BREAK
 		mov bx, dx
 		add bx, 0x20

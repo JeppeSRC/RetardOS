@@ -1,6 +1,6 @@
 BITS 16
 
-;%define _BREAK
+%define _BREAK
 
 %ifdef _BREAK
 %define BREAK xchg bx, bx
@@ -14,6 +14,7 @@ BITS 16
 jmp start
 
 %include "simplefs.inc"
+%include "memory.inc"
 
 gdt_data: 
 	dd 0                ; null descriptor
@@ -63,6 +64,8 @@ KernelRelocationTalbleSig: db '.reloc'
 
 msgLoadingKernel: db ' Loading kernel !', 0
 
+numMemoryMapEntries: resw 0
+
 print:
 	push ax
 	loopPrint:
@@ -97,6 +100,7 @@ start:
 	xor ax, ax
 	mov ax, 0x7E0
 	mov ds, ax
+	mov es, ax
 
 	xor eax, eax
 	mov al, byte [SectorsPerFAT]
@@ -157,7 +161,6 @@ FindFile:
 		
 		
 	LoadFile:
-
 		mov si, msgLoadingKernel
 		call print
 
@@ -180,8 +183,11 @@ FindFile:
 			loop loopLoadFile
 
 
-		mov ax, 0x7E0
+		mov ax, 0x7C0
 		mov es, ax
+
+
+		call MapMemory
 
 		cli
 
@@ -246,7 +252,6 @@ TestKernel:
 	jne BadKernel
 
 Relocation:
-	BREAK
 	push ebx
 
 	;Find the first relocation table
@@ -263,7 +268,6 @@ Relocation:
 	rep cmpsb
 	jne .relocLoop 
 
-	BREAK
 	;code section
 	mov ebx, eax
 	mov esi, ebx
@@ -317,6 +321,7 @@ BREAK
 	mov eax, dword [ebx]
 	add ebp, eax
 
+	push 0x7C00
 	call ebp
 
 	cli
@@ -338,3 +343,6 @@ MoveSection:
 	rep movsb
 
 	ret
+
+
+END:
