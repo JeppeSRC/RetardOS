@@ -63,6 +63,7 @@ KernelDataSig: db '.data'
 KernelRelocationTalbleSig: db '.reloc' 
 
 msgLoadingKernel: db ' Loading kernel !', 0
+msgStage2: db ' Stage 2 booted ', 0
 
 numMemoryMapEntries: resw 0
 
@@ -101,6 +102,9 @@ start:
 	mov ax, 0x7E0
 	mov ds, ax
 	mov es, ax
+
+	mov si, msgStage2
+	call print
 
 	xor eax, eax
 	mov al, byte [SectorsPerFAT]
