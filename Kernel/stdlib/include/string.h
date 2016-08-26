@@ -1,8 +1,7 @@
 #pragma once
+#include "stddef.h"
 #include "stdarg.h"
 #include "memory.h"
-#include "stddef.h"
-
 
 uint32		_strlen(const char* _string);
 bool		_strcmp(const char* _string1, const char* _string2);

@@ -39,6 +39,12 @@
     <ClInclude Include="include\stddef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\math.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\math64.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\memory.cpp">
@@ -60,6 +66,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\cmos_rtc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\math64.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

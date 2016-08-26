@@ -78,7 +78,7 @@ void CMOS_RTC_GetCurrentTime(CMOS_RTC_Time* time) {
 }
 
 void CMOS_RTC_GetStatusRegister(unsigned char reg, void* regStruct) {
-	if (reg >  (CMOS_RTC_REG_STATUS_A & 0x7F) && (reg < CMOS_RTC_REG_STATUS_D & 0x7F)) {
+	if ((reg >  (CMOS_RTC_REG_STATUS_A & 0x7F)) && (reg < (CMOS_RTC_REG_STATUS_D & 0x7F))) {
 		memset(regStruct, 0, 1);
 		return;
 	}
@@ -88,7 +88,7 @@ void CMOS_RTC_GetStatusRegister(unsigned char reg, void* regStruct) {
 }
 
 void CMOS_RTC_SetStatusRegister(unsigned char reg, void* regStruct) {
-	if (reg >= (CMOS_RTC_REG_STATUS_A & 0x7F) && (reg <= CMOS_RTC_REG_STATUS_B & 0x7F)) {
+	if ((reg >= (CMOS_RTC_REG_STATUS_A & 0x7F)) && (reg <= (CMOS_RTC_REG_STATUS_B & 0x7F))) {
 		return;
 	}
 

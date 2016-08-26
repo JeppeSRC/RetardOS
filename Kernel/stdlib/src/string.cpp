@@ -1,6 +1,6 @@
-#include <string.h>
-#include <stdio.h>
-#include <stdbool.h>
+#include "string.h"
+#include "stdio.h"
+#include "math64.h"
 
 uint32 _strlen(const char* _string) {
 	uint32 res = 0;
@@ -38,6 +38,9 @@ uint32 _vsprintf(char* _buff, const char* _format, va_list args) {
 
 	char tmp[21];
 
+	uint32 tmplen = 0;
+	uint64 value = 0;
+
 	for (uint32 i = 0; i < len; i++) {
 		if (_format[i] == '%') {
 			i++;
@@ -62,6 +65,13 @@ uint32 _vsprintf(char* _buff, const char* _format, va_list args) {
 
 				case 'H':
 
+					memset(tmp, 0, 17);
+
+					_uint64ToString(va_arg(args, uint64), 16, tmp);
+
+					memcpy(_buff + printed, tmp, 16);
+
+					printed += 16;
 				
 					break;
 
@@ -69,11 +79,11 @@ uint32 _vsprintf(char* _buff, const char* _format, va_list args) {
 
 					memset(tmp, 0, 11);
 
-					uint32 tmplen = 1;
-					uint32 value = va_arg(args, uint32);
+					tmplen = 1;
+					value = va_arg(args, uint32);
 
 					if (value != 0) {
-						tmplen = _uint32ToString(value, 10, tmp);
+						tmplen = _uint32ToString((uint32)(value & 0xFFFFFFFF), 10, tmp);
 					} else {
 						tmp[0] = '0';
 					}
@@ -83,9 +93,24 @@ uint32 _vsprintf(char* _buff, const char* _format, va_list args) {
 					printed += tmplen;
 					break;
 
-				/*case 'U':
+				case 'U':
 
-					break;*/
+					memset(tmp, 0, 21);
+
+					tmplen = 1;
+					value = va_arg(args, uint64);
+
+					if (value != 0) {
+						tmplen = _uint64ToString(value, 10, tmp);
+					} else {
+						tmp[0] = '0';
+					}
+
+					memcpy(_buff + printed, tmp, tmplen);
+
+					printed += tmplen;
+
+					break;
 			}
 		} else {
 			_buff[printed++] = _format[i];
@@ -125,9 +150,30 @@ uint32 _uint32ToString(uint32 _v, uint32 _base, char* _buff) {
 	return num;
 }
 
+uint32 _uint64ToString(uint64 _v, uint32 _base, char * _buff) {
+	uint32 num = 0;
+	
+	uint32 rem = 0;
 
-//18446744073709551615
-uint32 _uint64ToString(uint64 _v, uint32 _base, char* _buff) {
-	return 18446744073709551615;
+	while (_v > 0) {
+		if (num >= 20) break;
+		_v = uint64div(_v, _base, &rem);
+		_buff[num++] = chars[rem];
+	}
+	
+	char tmp[21];
+	memcpy(tmp, _buff, 21);
+
+	uint32 start = 0;
+
+	if (_base == 16) {
+		memset(_buff, '0', 16);
+		start = 16 - num;
+	}
+
+	for (uint32 i = 0; i < num; i++) {
+		_buff[start + i] = tmp[num - i - 1];
+	}
+
+	return num;
 }
-

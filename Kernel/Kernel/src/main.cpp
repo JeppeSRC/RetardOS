@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <sys.h>
 #include <cmos.h>
+#include <math.h>
 #include "smap.h"
 
 #define BREAK __asm xchg bx, bx
@@ -24,7 +25,7 @@ void _cdecl kmain(byte* smapPointer) {
 
 		if (e.type == 1 || e.type == 3) total += e.lengthLow;
 
-		_printf("base: %h | length: %h | type: %u\n", e.baseAddressLow, e.lengthLow, e.type);
+		_printf("base: %H | length: %H | type: %u\n", e.baseAddress, e.length, e.type);
 	}
 
 	_printf("\nTotal available memory: %u MB\n", total / 1024 / 1024);

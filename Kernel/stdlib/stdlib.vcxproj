@@ -52,8 +52,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="Shared">
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -94,11 +93,20 @@
       <CompileAs>CompileAsCpp</CompileAs>
       <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <ControlFlowGuard>false</ControlFlowGuard>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Lib>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -143,6 +151,8 @@
   <ItemGroup>
     <ClInclude Include="include\cmos.h" />
     <ClInclude Include="include\keyboard.h" />
+    <ClInclude Include="include\math.h" />
+    <ClInclude Include="include\math64.h" />
     <ClInclude Include="include\memory.h" />
     <ClInclude Include="include\stdarg.h" />
     <ClInclude Include="include\stddef.h" />
@@ -154,12 +164,12 @@
     <ClCompile Include="src\cmos.cpp" />
     <ClCompile Include="src\cmos_rtc.cpp" />
     <ClCompile Include="src\keyboard.cpp" />
+    <ClCompile Include="src\math64.cpp" />
     <ClCompile Include="src\memory.cpp" />
     <ClCompile Include="src\stdio.cpp" />
     <ClCompile Include="src\string.cpp" />
     <ClCompile Include="src\sys.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>
