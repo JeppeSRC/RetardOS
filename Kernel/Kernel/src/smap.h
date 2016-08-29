@@ -1,6 +1,7 @@
 #pragma once
 
-#include "stddef.h"
+#include <stddef.h>
+#include "kmain.h"
 
 struct SMAP_ENTRY {
 	union {
@@ -28,4 +29,5 @@ struct SMAP {
 };
 
 void SMAP_Init(SMAP* map, byte* mapPointer);
+void SMAP_Init(SMAP* map, KERNEL_BOOT_HEADER* kboot);
 

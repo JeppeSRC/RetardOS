@@ -4,15 +4,16 @@
 #include <sys.h>
 #include <cmos.h>
 #include <math.h>
+#include "kmain.h"
 #include "smap.h"
 
 #define BREAK __asm xchg bx, bx
 
-void _cdecl kmain(byte* smapPointer) {
+void _cdecl kmain(KERNEL_BOOT_HEADER* bootHeader) {
 	_clr();
 
 	SMAP smap;
-	SMAP_Init(&smap, smapPointer);
+	SMAP_Init(&smap, bootHeader);
 
 	_print("Reading Memory map\n\n");
 

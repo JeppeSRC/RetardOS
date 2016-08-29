@@ -117,7 +117,7 @@
       <BaseAddress>0x100000</BaseAddress>
       <FixedBaseAddress>true</FixedBaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <GenerateMapFile>true</GenerateMapFile>
+      <GenerateMapFile>false</GenerateMapFile>
       <MapFileName>kernel.map</MapFileName>
       <AdditionalLibraryDirectories>$(SolutionDir)..\lib\$(Configuration)</AdditionalLibraryDirectories>
     </Link>
@@ -168,7 +168,7 @@
       <EntryPointSymbol>kmain</EntryPointSymbol>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <AdditionalDependencies>kstdlib.lib</AdditionalDependencies>
-      <GenerateMapFile>true</GenerateMapFile>
+      <GenerateMapFile>false</GenerateMapFile>
       <MapFileName>kernel.map</MapFileName>
       <AdditionalLibraryDirectories>$(SolutionDir)..\lib\$(Configuration)</AdditionalLibraryDirectories>
       <BaseAddress>0x100000</BaseAddress>
@@ -193,7 +193,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\kmain.cpp" />
     <ClCompile Include="src\smap.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -202,6 +202,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\kmain.h" />
     <ClInclude Include="src\smap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

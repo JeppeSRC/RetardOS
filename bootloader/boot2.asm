@@ -10,11 +10,18 @@ BITS 16
 
 %define KERNEL_RMODE_LOC 0x820
 %define KERNEL_PMODE_LOC 0x100000
+%define KERNEL_SMAP_LOC 0x7C00
 
 jmp start
 
 %include "simplefs.inc"
 %include "memory.inc"
+
+KERNEL_BOOT_HEADER:
+	kernelStartAddress: dd 0
+	kernelSize: dd 0
+	smapAddress: dd 0
+
 
 gdt_data: 
 	dd 0                ; null descriptor
@@ -152,7 +159,7 @@ FindFile:
 		add bx, 0x04
 		mov ecx, dword [es:bx]
 
-		mov dword [KernelFileSize], eax
+		mov dword [kernelSize], eax
 
 		xor ebx, ebx
 		mov bx, word [BytesPerSector]
@@ -187,7 +194,9 @@ FindFile:
 			loop loopLoadFile
 
 
-		mov ax, 0x7C0
+		mov ax, KERNEL_SMAP_LOC
+		mov bx, 0x10
+		div bx
 		mov es, ax
 
 
@@ -242,7 +251,7 @@ CopyKernel:
 	mov esi, eax
 	mov edi, KERNEL_PMODE_LOC
 
-	mov ecx, dword [KernelFileSize+0x7E00]
+	mov ecx, dword [kernelSize+0x7E00]
 
 	rep movsb
 
@@ -317,7 +326,7 @@ Relocation:
 	call MoveSection
 
 ExecuteKernel:
-BREAK
+
 	pop ebx
 	add ebx, 0x28
 	mov ebp, dword [ebx]
@@ -325,7 +334,10 @@ BREAK
 	mov eax, dword [ebx]
 	add ebp, eax
 
-	push 0x7C00
+	mov dword [kernelStartAddress+0x7E00], KERNEL_PMODE_LOC
+	mov dword [smapAddress+0x7E00], KERNEL_SMAP_LOC
+	
+	push KERNEL_BOOT_HEADER+0x7E00
 	call ebp
 
 	cli
