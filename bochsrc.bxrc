@@ -6,11 +6,11 @@ memory: host=512, guest=512
 romimage: file="C:\Program Files (x86)\Bochs-2.6.8/BIOS-bochs-latest"
 vgaromimage: file="C:\Program Files (x86)\Bochs-2.6.8/VGABIOS-lgpl-latest"
 boot: floppy
-floppy_bootsig_check: disabled=1
+floppy_bootsig_check: disabled=0
 floppya: type=1_44, 1_44="image.bin", status=inserted, write_protected=0
 # no floppyb
 ata0: enabled=1, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14
-ata0-master: type=none
+ata0-master: type=disk, path="D:\Development\OS\RetardOS\hdd.bin", mode=flat, cylinders=130, heads=16, spt=63, model="Generic 1234", biosdetect=auto, translation=none
 ata0-slave: type=none
 ata1: enabled=1, ioaddr1=0x170, ioaddr2=0x370, irq=15
 ata1-master: type=none
